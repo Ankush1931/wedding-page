@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Abhishek & Ritika | Wedding Invitation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+/* =====================================================
+   🎨 DESIGN SETTINGS: change colours, sizes and speeds here
+   ===================================================== */
+:root{
+  /* colours */
+  --purple:#6b4a9c; --purple-deep:#3b2a55; --lilac:#d9c8f0; --lilac-soft:#f3ecfc;
+  --gold:#c9a24b; --gold-deep:#8a6a1f; --ivory:#fffdf9; --ink:#3b2a55;
+  /* fonts */
+  --font-script:'Great Vibes',cursive; --font-title:'Cinzel',serif; --font-body:'Cormorant Garamond',Georgia,serif;
+  /* background photo */
+  --bg-blur:5px;        /* how blurred the photo is */
+  --bg-overlay:.62;     /* 0 = photo clearly visible, 1 = hidden by the lilac wash */
+  /* sizes */
+  --crest-size:min(78vw,300px); --face-size:170px; --pol-size:170px; --card-radius:18px;
+  --card-bg:rgba(255,253,249,.84);
+  /* animation speeds */
+  --open-time:1.8s;     /* cover opening */
+  --reveal-time:1.1s;   /* sections fading in */
+  --crest-breathe:6s;   /* monogram gentle zoom */
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font:400 1.3rem/1.55 var(--font-body);color:var(--ink);background:var(--lilac-soft)}
+body.locked{overflow:hidden}
+body::before{content:"";position:fixed;inset:-20px;z-index:-2;background:url(resources/ogbackground.jpeg) center/cover;filter:blur(var(--bg-blur))}
+body::after{content:"";position:fixed;inset:0;z-index:-1;background:linear-gradient(rgba(243,236,252,var(--bg-overlay)),rgba(255,255,255,var(--bg-overlay)))}
+.defs{position:absolute;width:0;height:0}
+h2{font:600 1.5rem var(--font-title);letter-spacing:.18em;text-transform:uppercase;color:var(--purple-deep)}
+.dv svg{display:block;width:min(260px,70%);margin:6px auto 20px}
+.gan{width:74px;height:74px}
+
+/* ---------- Cover (tap to open) ---------- */
+#cover{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:16px;text-align:center;cursor:pointer;
+ background:radial-gradient(circle at 50% 40%,rgba(255,255,255,.8),rgba(217,200,240,.78));
+ transition:opacity var(--open-time) ease,transform var(--open-time) ease,filter var(--open-time) ease}
+#cover.open{opacity:0;transform:scale(1.25);filter:blur(10px);pointer-events:none}
+.crest svg{display:block;margin:0 auto;width:var(--crest-size);height:var(--crest-size);animation:breathe var(--crest-breathe) ease-in-out infinite alternate}
+@keyframes breathe{to{transform:scale(1.035)}}
+.invite{font:600 .95rem var(--font-title);letter-spacing:.25em;text-transform:uppercase;color:var(--purple)}
+.tap{margin-top:14px;padding:10px 26px;border:1px solid var(--gold);border-radius:30px;background:var(--ivory);font:600 .9rem var(--font-title);letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.45;transform:scale(1.05)}}
+
+/* ---------- Falling petals ---------- */
+#petals{position:fixed;inset:0;z-index:110;pointer-events:none;overflow:hidden}
+.petal{position:absolute;top:-30px;border-radius:150% 0 150% 0;opacity:.8;animation:fall linear infinite}
+@keyframes fall{0%{transform:translate(0,-30px) rotate(0)}50%{transform:translate(var(--dx),55vh) rotate(180deg)}100%{transform:translate(calc(var(--dx)*-.6),110vh) rotate(380deg)}}
+
+/* ---------- Page and cards ---------- */
+.wrap{max-width:820px;margin:0 auto;padding:0 14px 100px;opacity:0;transform:translateY(40px)}
+body.entered .wrap{opacity:1;transform:none;transition:opacity 1.4s,transform 1.6s cubic-bezier(.2,.7,.2,1)}
+.card{margin:26px 0;padding:46px 22px;text-align:center;background:var(--card-bg);backdrop-filter:blur(3px);border:1px solid var(--gold);border-radius:var(--card-radius);
+ box-shadow:0 0 0 6px rgba(255,253,249,.55),0 0 0 7px var(--gold),0 20px 50px rgba(59,42,85,.18)}
+.rv{opacity:0;transform:translateY(28px);transition:opacity var(--reveal-time),transform var(--reveal-time)}
+.rv.in{opacity:1;transform:none}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+body.entered .hero>*{animation:rise 1s both;animation-delay:calc(var(--i)*.18s + .5s)}
+
+/* home */
+.shloka{font:600 1rem var(--font-title);letter-spacing:.12em;color:var(--gold-deep)}
+.names{font:clamp(3.2rem,14vw,5.4rem)/1.05 var(--font-script);color:var(--purple)}
+.names i{display:block;font-size:.5em;color:var(--gold)}
+.date{font:600 1.1rem var(--font-title);letter-spacing:.2em;color:var(--gold-deep);margin-top:8px}
+.msg{max-width:540px;margin:14px auto;font-style:italic}
+.cd{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:20px}
+.cd div{min-width:76px;padding:10px 6px;border:1px solid var(--gold);border-radius:14px;background:var(--ivory)}
+.cd b{display:block;font:600 1.9rem var(--font-title);color:var(--purple)}
+.cd span{font-size:.9rem;letter-spacing:.1em}
+
+/* couple (faces) */
+.pair{display:flex;gap:34px;justify-content:center;flex-wrap:wrap}
+.person{width:min(280px,100%)}
+.face{position:relative;width:var(--face-size);height:var(--face-size);margin:0 auto 12px;border-radius:50%;padding:6px;border:2px solid var(--gold);
+ background:linear-gradient(135deg,var(--lilac),#fff);box-shadow:0 10px 24px rgba(59,42,85,.25);overflow:hidden}
+.face::before{content:attr(data-i);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:5rem var(--font-script);color:var(--gold)}
+.face img{position:relative;width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
+.person h3{font:2.3rem var(--font-script);color:var(--purple)}
+.person small{display:block;font-size:1.05rem}
+
+/* events */
+.muhurat{padding:22px 14px;margin-bottom:22px;border-radius:14px;color:#fff;background:linear-gradient(135deg,var(--purple),var(--purple-deep));border:3px double var(--gold)}
+.muhurat h3{font:600 1rem var(--font-title);letter-spacing:.2em;color:#f1dfa6}
+.muhurat .big{font:600 1.9rem var(--font-title)}
+.ev{max-width:460px;margin:0 auto 14px;padding:14px;border:1px solid var(--gold);border-radius:12px;background:var(--ivory)}
+.ev h3{font:600 1.1rem var(--font-title);letter-spacing:.12em;color:var(--purple)}
+.ev .t{color:var(--gold-deep);font-weight:600}
+
+/* venue */
+.btn{display:inline-block;margin:10px 5px 0;padding:9px 22px;border-radius:30px;background:var(--purple);color:#fff;text-decoration:none;border:1px solid var(--gold);font:inherit}
+.btn:hover,.btn:focus-visible{background:var(--gold-deep)}
+iframe{width:100%;height:260px;border:2px solid var(--gold);border-radius:12px;margin-top:14px;background:var(--lilac)}
+
+/* polaroids */
+.polas{display:flex;flex-wrap:wrap;justify-content:center;gap:32px 20px;padding:12px 0}
+.pol{position:relative;width:min(var(--pol-size),42%);min-width:130px;border:0;padding:9px 9px 0;background:#fff;box-shadow:0 8px 18px rgba(59,42,85,.35);cursor:pointer;transform:rotate(var(--r));transition:transform .35s,box-shadow .35s;font:inherit}
+.pol::before{content:"";position:absolute;top:-11px;left:50%;width:60px;height:20px;margin-left:-30px;background:rgba(201,162,75,.45);transform:rotate(-3deg)}
+.pol img{display:block;width:100%;aspect-ratio:1;object-fit:cover;background:var(--lilac)}
+.pol span{display:block;min-height:44px;padding-top:7px;font:1.35rem 'Caveat',cursive;color:var(--ink)}
+.pol:hover,.pol:focus-visible{transform:rotate(0) scale(1.07);z-index:3}
+.pol:focus-visible{outline:3px solid var(--gold)}
+#lb{position:fixed;inset:0;z-index:130;background:rgba(20,10,35,.88);display:none;align-items:center;justify-content:center;padding:16px;gap:6px}
+#lb.on{display:flex}
+#lb figure{background:#fff;padding:12px;box-shadow:0 12px 40px #000;transform:rotate(-1.5deg);max-width:calc(100vw - 110px)}
+#lb img{display:block;max-width:100%;max-height:70vh}
+#lc{min-height:36px;padding-top:6px;font:1.6rem 'Caveat',cursive;text-align:center}
+.ar,#lx{background:none;border:0;color:#f1dfa6;cursor:pointer}
+.ar{font-size:2.6rem;width:44px}
+#lx{position:absolute;top:12px;right:16px;font-size:1.8rem}
+footer{text-align:center;padding:10px 10px 30px}
+footer p{font:2rem var(--font-script);color:var(--purple)}
+
+/* bottom tabs */
+nav{position:fixed;left:50%;bottom:0;z-index:120;width:min(100%,820px);display:flex;transform:translate(-50%,110%);background:var(--purple-deep);border-top:2px solid var(--gold);transition:transform .8s 1s}
+body.entered nav{transform:translate(-50%,0)}
+nav a{flex:1;padding:9px 2px 7px;text-align:center;color:#e6d3a0;text-decoration:none;font:.8rem/1.2 var(--font-title);letter-spacing:.06em;border-top:3px solid transparent}
+nav a i{display:block;font-style:normal;font-size:1.2rem}
+nav a.on{color:#fff;background:var(--purple);border-top-color:var(--gold)}
+#music{position:fixed;right:14px;bottom:76px;z-index:125;width:44px;height:44px;border-radius:50%;border:1px solid var(--gold);background:var(--purple);color:#f1dfa6;font-size:1.2rem;cursor:pointer;display:none}
+#music.show{display:block}
+@media(prefers-reduced-motion:reduce){#petals{display:none}*{transition-duration:.01s!important;animation-duration:.01s!important}}
+</style>
+</head>
+<body class="locked">
+
+<!-- shared drawing tools (gold gradient, watercolor filter, Ganpati clipart) -->
+<svg class="defs" aria-hidden="true"><defs>
+ <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3df9b"/><stop offset=".5" stop-color="#c9a24b"/><stop offset="1" stop-color="#8a6a1f"/></linearGradient>
+ <filter id="wc"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="5"/><feGaussianBlur stdDeviation=".5"/></filter>
+</defs>
+<symbol id="ganesh" viewBox="0 0 120 120">
+ <circle cx="60" cy="58" r="54" fill="none" stroke="url(#gold)" stroke-width="1.5" stroke-dasharray="2 4"/>
+ <ellipse cx="27" cy="60" rx="20" ry="27" fill="#f3df9b" stroke="url(#gold)" stroke-width="2"/><ellipse cx="93" cy="60" rx="20" ry="27" fill="#f3df9b" stroke="url(#gold)" stroke-width="2"/>
+ <ellipse cx="60" cy="58" rx="27" ry="30" fill="url(#gold)"/>
+ <path d="M37 38L43 12l9 15 8-21 8 21 9-15 6 26z" fill="url(#gold)" stroke="#8a6a1f" stroke-width="1.5"/>
+ <circle cx="60" cy="24" r="4" fill="#6b4a9c"/><circle cx="46" cy="30" r="2.5" fill="#6b4a9c"/><circle cx="74" cy="30" r="2.5" fill="#6b4a9c"/>
+ <path d="M54 40v10M60 38v12M66 40v10" stroke="#6b4a9c" stroke-width="2" stroke-linecap="round"/>
+ <ellipse cx="50" cy="56" rx="3.5" ry="2.5" fill="#3b2a55"/><ellipse cx="70" cy="56" rx="3.5" ry="2.5" fill="#3b2a55"/>
+ <path d="M60 62C60 82 44 90 51 103C56 112 70 109 66 100" fill="none" stroke="#8a6a1f" stroke-width="12" stroke-linecap="round"/>
+ <path d="M60 62C60 82 44 90 51 103C56 112 70 109 66 100" fill="none" stroke="url(#gold)" stroke-width="8" stroke-linecap="round"/>
+ <path d="M72 80q9 9 3 18" fill="none" stroke="#fffdf9" stroke-width="4" stroke-linecap="round"/>
+ <path d="M30 112q30-14 60 0q-30 8-60 0z" fill="#b9a2dc" stroke="url(#gold)" stroke-width="1.5"/>
+</symbol></svg>
+
+<div id="petals" aria-hidden="true"></div>
+
+<!-- ===== Tap to open cover ===== -->
+<div id="cover" role="button" tabindex="0" aria-label="Tap to open the invitation">
+ <svg class="gan"><use href="#ganesh"/></svg>
+ <div class="shloka">|| Shri Ganeshaya Namah ||</div>
+ <div class="crest" data-crest></div>
+ <div class="invite" id="coverNames"></div>
+ <div class="tap">Tap to open</div>
+</div>
+
+<div class="wrap">
+ <!-- HOME -->
+ <section id="home" class="card hero">
+  <svg class="gan" style="--i:0"><use href="#ganesh"/></svg>
+  <div class="shloka" style="--i:1">|| Shri Ganeshaya Namah ||</div>
+  <div class="crest" data-crest style="--i:2"></div>
+  <div class="names" style="--i:3"><span id="n1"></span><i>&amp;</i><span id="n2"></span></div>
+  <p class="msg" style="--i:4">Together with their families, request the pleasure of your company at the wedding celebration.</p>
+  <p class="date" id="dateText" style="--i:5"></p>
+  <div class="cd" id="cd" style="--i:6">
+   <div><b id="d">0</b><span>Days</span></div><div><b id="h">0</b><span>Hours</span></div><div><b id="m">0</b><span>Mins</span></div><div><b id="s">0</b><span>Secs</span></div>
+  </div>
+ </section>
+
+ <!-- COUPLE -->
+ <section id="couple" class="card rv">
+  <h2>The Couple</h2><div class="dv"></div>
+  <div class="pair">
+   <div class="person"><div class="face" id="gFace"></div><h3 id="gName"></h3><small id="gPar"></small></div>
+   <div class="person"><div class="face" id="bFace"></div><h3 id="bName"></h3><small id="bPar"></small></div>
+  </div>
+ </section>
+
+ <!-- TIMING -->
+ <section id="timing" class="card rv">
+  <h2>Celebrations</h2><div class="dv"></div>
+  <div class="muhurat"><h3>Auspicious Muhurat</h3><p class="big" id="muhurat"></p><p id="muhuratNote"></p></div>
+  <div id="events"></div>
+ </section>
+
+ <!-- VENUE -->
+ <section id="venue" class="card rv">
+  <h2>Venue</h2><div class="dv"></div>
+  <div id="venues"></div>
+  <iframe id="map" title="Wedding venue map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+ </section>
+
+ <!-- GALLERY -->
+ <section id="gallery" class="card rv">
+  <h2>Our Moments</h2><div class="dv"></div>
+  <div class="polas" id="grid"></div>
+ </section>
+
+ <footer class="rv">
+  <p>We look forward to celebrating with you</p>
+  <a class="btn" id="call">Call us</a><a class="btn" id="rsvp" target="_blank" rel="noopener">Confirm on WhatsApp</a>
+ </footer>
+</div>
+
+<nav aria-label="Sections">
+ <a href="#home" class="on"><i>❖</i>Home</a><a href="#couple"><i>♡</i>Couple</a><a href="#timing"><i>⏳</i>Timing</a><a href="#venue"><i>📍</i>Venue</a><a href="#gallery"><i>🖼</i>Gallery</a>
+</nav>
+
+<div id="lb" role="dialog" aria-label="Photo viewer"><button id="lx" aria-label="Close">✕</button><button id="lp" class="ar" aria-label="Previous">‹</button><figure><img alt=""><figcaption id="lc"></figcaption></figure><button id="ln" class="ar" aria-label="Next">›</button></div>
+<button id="music" aria-label="Music on or off">♪</button>
+<audio id="song" loop preload="auto"></audio>
+
+<script>
+/* =====================================================
+   ✏️ EDIT YOUR DETAILS HERE
+   ===================================================== */
+const CONFIG = {
+  groom: "Abhishek", groomFull: "Abhishek Nirmal", groomPhoto: "resources/abhishekface.jpg",
+  bride: "Ritika",   brideFull: "Ritika Mande",    bridePhoto: "resources/mandeface.jpg",
+  groomParents: "Son of Shri Prakash Vaman Nirmal and Mrs. Poornima Prakash Nirmal",
+  brideParents: "Daughter of Shri Sandeep Shripat Mande and Mrs. Pooja Sandeep Mande",
+
+  weddingDateTime: "2026-12-14T12:21:00+05:30",   // year-month-dayTHH:MM:SS+05:30
+  dateText: "Monday, 14 December 2026",
+  muhurat: "12:21 PM", muhuratNote: "Monday, 14 December 2026",
+
+  events: [
+    { name: "Haldi Ceremony",    when: "Sunday, 13 December 2026 | 7 PM to 10 PM", where: "Nirmal Residence, Thane (W)" },
+    { name: "Wedding",           when: "Monday, 14 December 2026 | 12:21 PM",       where: "Hotel Kashish International, Kalyan (E)" },
+    { name: "Satyanarayan Puja", when: "Tuesday, 15 December 2026 | 3:50 PM",       where: "Nirmal Residence, Thane (W)" }
+  ],
+  venues: [
+    { title: "Wedding Venue", name: "Hotel Kashish International", addr: "Malgad Road, near Anmol Garden, Nandivali village, Kalyan (E) 421306", q: "Hotel Kashish International Nandivali Kalyan East" },
+    { title: "Haldi & Satyanarayan Puja", name: "Nirmal Residence", addr: "Near Virul Temple, Dhokali, Kolshet Road, Thane (W) 400607", q: "Virul Temple Dhokali Kolshet Road Thane" }
+  ],
+
+  gallery:  ["resources/1.jpeg","resources/2.jpeg","resources/3.jpeg","resources/4.jpeg","resources/5.jpeg","resources/6.jpeg"],
+  captions: ["","","","","",""],      // optional handwritten text under each photo
+  song: "resources/sound_wed.mp3",
+  phone: "9833112995",
+  petals: 22                          // number of falling petals (0 = none)
+};
+
+/* ============ No need to edit below this line ============ */
+const $ = id => document.getElementById(id);
+const A = CONFIG.groom[0], R = CONFIG.bride[0];
+
+/* text */
+$("n1").textContent = CONFIG.groom; $("n2").textContent = CONFIG.bride;
+$("coverNames").textContent = CONFIG.groom + " & " + CONFIG.bride;
+$("dateText").textContent = CONFIG.dateText;
+$("gName").textContent = CONFIG.groomFull; $("bName").textContent = CONFIG.brideFull;
+$("gPar").textContent = CONFIG.groomParents; $("bPar").textContent = CONFIG.brideParents;
+$("muhurat").textContent = CONFIG.muhurat; $("muhuratNote").textContent = CONFIG.muhuratNote;
+$("events").innerHTML = CONFIG.events.map(e => `<div class="ev"><h3>${e.name}</h3><div class="t">${e.when}</div><div>${e.where}</div></div>`).join("");
+$("venues").innerHTML = CONFIG.venues.map(v => `<p><b>${v.title}</b><br>${v.name}<br>${v.addr}<br><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(v.q)}">Get directions</a></p><br>`).join("");
+$("map").src = "https://maps.google.com/maps?q=" + encodeURIComponent(CONFIG.venues[0].q) + "&output=embed";
+$("call").href = "tel:+91" + CONFIG.phone;
+$("rsvp").href = "https://wa.me/91" + CONFIG.phone + "?text=" + encodeURIComponent(`Namaste! We will attend the wedding of ${CONFIG.groom} & ${CONFIG.bride}.`);
+
+/* faces: photo shows if the file exists, otherwise the gold initial stays */
+[["gFace", CONFIG.groomPhoto, A], ["bFace", CONFIG.bridePhoto, R]].forEach(([id, src, ch]) => {
+  $(id).dataset.i = ch; $(id).innerHTML = `<img src="${src}" alt="${ch}" onerror="this.remove()">`; });
+
+/* dividers */
+document.querySelectorAll(".dv").forEach(d => d.innerHTML = '<svg viewBox="0 0 260 34" aria-hidden="true"><path d="M10 17H108M152 17H250" stroke="#c9a24b"/><path d="M130 6l8 11-8 11-8-11z" fill="url(#gold)"/><path d="M114 17q-6-8-14-4q8 2 14 4M146 17q6-8 14-4q-8 2-14 4" fill="#b9a2dc"/><circle cx="104" cy="17" r="2.5" fill="#c9a24b"/><circle cx="156" cy="17" r="2.5" fill="#c9a24b"/></svg>');
+
+/* botanical crest: leaf wreath + watercolor flowers + monogram */
+let sd = 11; const rnd = () => (sd = sd * 16807 % 2147483647) / 2147483647;
+const PAL = ["#8e6bbf", "#b39ddb", "#6b4a9c", "#d9c8f0", "#ffffff"];
+function flower(x, y, r, i) {
+  let g = `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${(rnd()*60).toFixed(0)})">`;
+  for (let k = 0; k < 6; k++) g += `<ellipse cy="${-r*.55}" rx="${r*.38}" ry="${r*.6}" fill="${PAL[i%5]}" fill-opacity=".82" stroke="#6b4a9c" stroke-opacity=".35" stroke-width=".6" transform="rotate(${k*60})"/>`;
+  return g + `<circle r="${r*.2}" fill="#c9a24b"/></g>`;
+}
+function crest() {
+  let s = '<svg viewBox="-140 -140 280 280" role="img" aria-label="Monogram"><g filter="url(#wc)">';
+  for (let k = 0; k < 44; k++) s += `<path d="M0 0C6-10 6-26 0-36C-6-26-6-10 0 0Z" fill="${["#c9a24b","#e2c97e","#b9a2dc"][k%3]}" fill-opacity=".85" transform="rotate(${k*360/44}) translate(0 ${k%2?-96:-104}) rotate(${k%2?35:-35}) scale(${(.8+rnd()*.5).toFixed(2)})"/>`;
+  [[-90,22],[-62,16],[-118,16],[90,22],[62,16],[118,16],[0,14],[180,14],[-35,12],[-145,12],[35,12],[145,12]].forEach(([a, r], i) =>
+    s += flower(Math.cos(a*Math.PI/180)*100, Math.sin(a*Math.PI/180)*100, r, i));
+  return s + `</g><circle r="76" fill="rgba(255,253,249,.7)" stroke="url(#gold)" stroke-width="1.5"/><circle r="70" fill="none" stroke="#c9a24b" stroke-dasharray="1 4"/>
+   <text text-anchor="middle" y="24" fill="url(#gold)" font-family="'Great Vibes',cursive" font-size="72">${A}<tspan font-size="32" dx="-3">&amp;</tspan>${R}</text></svg>`;
+}
+const crestSvg = crest(); document.querySelectorAll("[data-crest]").forEach(c => c.innerHTML = crestSvg);
+
+/* gallery: polaroids + viewer */
+const rot = [-5, 3, -2, 5, -4, 2];
+$("grid").innerHTML = CONFIG.gallery.map((s, i) => { const c = CONFIG.captions[i] || "";
+  return `<button class="pol" style="--r:${rot[i%6]}deg" data-src="${s}" data-cap="${c}" aria-label="Open photo ${i+1}"><img src="${s}" alt="Photo ${i+1}" loading="lazy" onerror="this.parentNode.remove()"><span>${c}</span></button>`; }).join("");
+let cur = 0;
+function show(i) { const p = [...$("grid").children]; if (!p.length) return; cur = (i + p.length) % p.length;
+  $("lb").querySelector("img").src = p[cur].dataset.src; $("lc").textContent = p[cur].dataset.cap; $("lb").classList.add("on"); }
+$("grid").onclick = e => { const b = e.target.closest(".pol"); if (b) show([...$("grid").children].indexOf(b)); };
+$("lp").onclick = () => show(cur - 1); $("ln").onclick = () => show(cur + 1);
+$("lx").onclick = () => $("lb").classList.remove("on");
+$("lb").onclick = e => { if (e.target === $("lb")) $("lb").classList.remove("on"); };
+document.addEventListener("keydown", e => { if (!$("lb").classList.contains("on")) return;
+  if (e.key === "Escape") $("lb").classList.remove("on"); if (e.key === "ArrowLeft") show(cur - 1); if (e.key === "ArrowRight") show(cur + 1); });
+
+/* countdown */
+const target = new Date(CONFIG.weddingDateTime).getTime();
+function tick() { const f = target - Date.now();
+  if (f <= 0) { $("cd").innerHTML = '<p style="font:2rem var(--font-script);color:var(--purple)">Shubh Mangal Savdhan</p>'; return; }
+  $("d").textContent = Math.floor(f / 864e5); $("h").textContent = Math.floor(f % 864e5 / 36e5);
+  $("m").textContent = Math.floor(f % 36e5 / 6e4); $("s").textContent = Math.floor(f % 6e4 / 1e3); }
+tick(); setInterval(tick, 1000);
+
+/* petals (lilac, white, gold) */
+const PC = ["linear-gradient(135deg,#e6d8fa,#a98bd6)", "linear-gradient(135deg,#fff,#e3d6f5)", "linear-gradient(135deg,#f3df9b,#c9a24b)"];
+for (let i = 0; i < CONFIG.petals; i++) { const p = document.createElement("i"), s = 9 + Math.random() * 12;
+  p.className = "petal"; p.style.cssText = `left:${Math.random()*100}%;width:${s}px;height:${s*1.3}px;background:${PC[i%3]};--dx:${(Math.random()*160-80).toFixed(0)}px;animation-duration:${(9+Math.random()*9).toFixed(1)}s;animation-delay:-${(Math.random()*16).toFixed(1)}s`;
+  $("petals").appendChild(p); }
+
+/* reveal on scroll + active tab */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), {threshold:.1});
+document.querySelectorAll(".rv").forEach(el => io.observe(el));
+const tabs = [...document.querySelectorAll("nav a")];
+const spy = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) tabs.forEach(t => t.classList.toggle("on", t.getAttribute("href") === "#" + e.target.id)); }), {rootMargin:"-45% 0px -50% 0px"});
+document.querySelectorAll(".card").forEach(s => spy.observe(s));
+
+/* tap to open: play song, lift the cover, bring in the invitation */
+const song = $("song"), music = $("music"); song.src = CONFIG.song;
+function openInvite() {
+  $("cover").classList.add("open"); song.play().catch(() => {}); music.classList.add("show");
+  document.body.classList.remove("locked"); document.body.classList.add("entered"); window.scrollTo(0, 0);
+  setTimeout(() => $("cover").remove(), 2200);
+}
+$("cover").addEventListener("click", openInvite, {once:true});
+$("cover").addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") openInvite(); });
+music.onclick = () => { song.paused ? song.play() : song.pause(); music.style.opacity = song.paused ? .5 : 1; };
+</script>
+</body>
+</html>
